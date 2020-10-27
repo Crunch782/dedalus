@@ -1,8 +1,6 @@
-# Mixing Problems
+# Mixing Project
 
-## This Project
-
-This code is intended for running numerical simulations to study mixing problems. The problems are motivated by the work lsited below. The code is written to perform Direct-Adjoint Looping calculations and the objective functional is based on a Sobolev-Norm with negative index (See Mathew et al 2005).
+This code is intended for running numerical simulations to study mixing problems. The problems are motivated by the work listed below. The code is written to perform Direct-Adjoint Looping calculations and the objective functional is based on a Sobolev-Norm with negative index (See Mathew et al 2005).
 
 ## Links
 
