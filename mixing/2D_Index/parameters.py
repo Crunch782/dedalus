@@ -11,6 +11,7 @@ def parameters():
     da = 1
     e0 = 0.03
     Vol = L**2
-    mag = np.sqrt(2.*e0)
+    mag = np.sqrt(2.*e0*Vol)
     T = 2.
-    return [Re, Pe, nx, ny, T, L, da, e0, Vol, mag]
+    Td = 64.
+    return [Re, Pe, nx, ny, T, Td, L, da, e0, Vol, mag]

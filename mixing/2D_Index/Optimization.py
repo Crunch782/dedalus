@@ -24,7 +24,7 @@ from mpi4py import MPI
 import h5py
 import sys
 
-[Re, Pe, nx, ny, T, L, da, e0, Vol, mag] = parameters()
+[Re, Pe, nx, ny, T, Td, L, da, e0, Vol, mag] = parameters()
 
 """
 
@@ -131,9 +131,14 @@ checkpoints.checkpoints()
 
 # Define problems/solvers for Direct/Adjoint variables
 
-solver_Direct = direct_Problem(dom)
-solver_Diag = diag_Problem(dom)
-solver_Adjoint = adjoint_Problem(dom)
+solver_Direct = direct_Problem(dom, Re, Pe, T)
+solver_Adjoint = adjoint_Problem(dom, Re, Pe, T)
+
+
+# Define problem/solver for diagnostics
+
+solver_Diag = diag_Problem(dom, Re, Pe, Td)
+
 
 # Random perturbations, initialized globally for same results in parallel
 gshape = dom.dist.grid_layout.global_shape(scales=1)
@@ -145,18 +150,25 @@ noise = rand.standard_normal(gshape)[slices]
 a = noise.ravel()
 b = noise.ravel()
 
-y = dom.grid(1)
-dy = 0.01
+# Scale for Energy Constraint
+R1 = reducer.reduce_scalar(np.square(LA.norm(a)), MPI.SUM)
+R2 = reducer.reduce_scalar(np.square(LA.norm(b)), MPI.SUM)
+R = np.sqrt(R1 + R2)
+dA = (L/nx)*(L/ny)
+E = mag / (R * np.sqrt(dA))
+a = a * E
+b = b * E
 
-delX3 = (L/nx)*dy
+# Check Constraint is Satisfied by Computing the KE
+u1 = reducer.reduce_scalar(np.square(LA.norm(a)), MPI.SUM)
+u2 = reducer.reduce_scalar(np.square(LA.norm(b)), MPI.SUM)
+KE = (1./(2.*Vol))*(u1 + u2)*dA
+err = abs(KE - e0)
 
-Ea = reducer.reduce_scalar(np.square(LA.norm(a)), MPI.SUM)
-Eb = reducer.reduce_scalar(np.square(LA.norm(b)), MPI.SUM)
-
-E = (Ea + Eb) * 0.5 * (1./Vol) * delX3  # 1/2 Int ||^2 = 1/2 || ||_2^2
-
-a = a * np.sqrt(e0 / E)
-b = b * np.sqrt(e0 / E)
+if rank == 0:
+    print("1/2 ||u0||^2 = ", KE)
+    print("Perturbation Energy Density = ", e0)
+    print("error = ", err)
 
 # Start
 #Xn = np.concatenate((a, b), axis=None)
@@ -167,34 +179,39 @@ with h5py.File('./VT2/'+str(rank)+'.h5', 'r') as hf:
 Csq = reducer.reduce_scalar(np.square(LA.norm(Xn)), MPI.SUM)
 epsilon = 2.2204e-16
 
-##############ALGORITHM PARAMETERS##############
+"""
 
-# Gradient Search Line Multiplication Factor
-K = float(sys.argv[1])
-r = float(sys.argv[2])              # Factor when step too large
-eps = 0.01            # Normalized Residual Tolerance (aim for O(0.001))
-tol = epsilon*epsilon          # Machine precision for residual
-e0init = float(sys.argv[3])         # Initial Step or Angle or Rotation
-LS = int(sys.argv[4])               # Line Search or Not
-LSI = int(sys.argv[5])              # Line Search Interpolation or Not
-proj = int(sys.argv[6])	     # Projection or not
-C = np.sqrt(Csq)     # Energy Constraint
-dir = -1.            # Type of Opt
-method = str(sys.argv[7])	     # Rotational Update ('rot') or Lagrange Multiplier ('lag')
-# Direction update, conj graident ('conj') or steepest descent ('grad')
-dmethod = str(sys.argv[8])
-powit = int(sys.argv[9])
-N = 300              # max number of DALs performed
-
-print("PARAMETERS ARE: K = ", K, " | r = ", r, " | e0init = ", e0init, " | LS = ", LS, " | LSI = ", LSI, " | proj = ", proj, " | method = ", method, " | dmethod = ", dmethod)
-
-################################################
+############## ALGORITHM PARAMETERS ##############
 
 """
 
-        Optimization algorithm begins here. DAL is run using
-        [J, dJ] = DAL(solver_Direct, solver_Adjoint, dom, Xn)
-        memPrint()
+
+K = float(sys.argv[1])              # Gradient Search Line Multiplication Factor
+r = float(sys.argv[2])              # Factor when step too large
+eps = 0.01                          # Normalized Residual Tolerance (aim for O(0.001))
+tol = epsilon*epsilon               # Machine precision for residual
+e0init = float(sys.argv[3])         # Initial Step or Angle or Rotation
+LS = int(sys.argv[4])               # Line Search or Not
+LSI = int(sys.argv[5])              # Line Search Interpolation or Not
+proj = int(sys.argv[6])	            # Projection or not
+C = np.sqrt(Csq)                    # Energy Constraint
+dir = -1.                           # Type of Opt
+method = str(sys.argv[7])	        # Rotational Update ('rot') or Lagrange Multiplier ('lag')
+dmethod = str(sys.argv[8])          # Direction update, conj graident ('conj') or steepest descent ('grad')
+powit = int(sys.argv[9])
+N = 300                             # Max number of DALs performed
+
+if rank == 0:
+    print("PARAMETERS ARE: K = ", K, " | r = ", r, " | e0init = ", e0init, " | LS = ", LS, " | LSI = ", LSI, " | proj = ", proj, " | method = ", method, " | dmethod = ", dmethod)
+
+"""
+
+##################################################
+
+
+        Optimization algorithm begins here.
+
+        DAL is run using [J, dJ] = DAL(solver_Direct, solver_Adjoint, dom, Xn)
 
 """
 
