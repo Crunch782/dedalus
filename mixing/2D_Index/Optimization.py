@@ -3,21 +3,16 @@ from grid import grid
 from direct_Problem import direct_Problem
 from adjoint_Problem import adjoint_Problem
 from diag_Problem import diag_Problem
-from direct_NS import direct_NS
-from adjoint_NS import adjoint_NS
-from diag_NS import diag_NS
-from terminal_Problem import terminal_Problem
-from terminal_Lp import terminal_Lp
+from direct_Solver import direct_Solver
+from adjoint_Solver import adjoint_Solver
 import os
 import psutil
 import numpy as np
-import gc
 from numpy import linalg as LA
 from dedalus import public as de
-from param import param
+from paramaters import paramaters
 import array as ar
-import checkPoints
-import terminal
+import checkpoints
 import operator as op
 from dedalus.extras.flow_tools import GlobalArrayReducer
 from mpi4py import MPI
@@ -129,11 +124,6 @@ checkpoints.checkpoints()
 
 solver_Direct = direct_Problem(dom, Re, Pe, T)
 solver_Adjoint = adjoint_Problem(dom, Re, Pe, T)
-
-
-# Define problem/solver for diagnostics
-
-solver_Diag = diag_Problem(dom, Re, Pe, Td)
 
 
 # Random perturbations, initialized globally for same results in parallel
@@ -260,7 +250,7 @@ C = np.sqrt(Csq)
 JDJ = []
 n = 0
 
-[J0, dJ0] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn, p, nx, ny)
+[J0, dJ0] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn, p, nx, ny, s)
 dJ0p = proj_grad(Xn, dJ0, e0init, C, method)
 JDJ.append(write_history(J0, dJ0, dJ0p, e0init))
 n = n + 1
@@ -292,7 +282,7 @@ if powit == 0 :
         Xn = update_pos(Xc, L, e, C, method)
 
         # Evaluate
-        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn, p, nx, ny)
+        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn, p, nx, ny, s)
         dJnp = proj_grad(Xn, dJn, e, C, method)
         JDJ.append(write_history(Jn, dJn, dJnp, e))
         n = n + 1
@@ -314,7 +304,7 @@ if powit == 0 :
             e = K * e
             Xn = update_pos(Xc, L, e, C, method)
             [Jn, dJn] = DAL(solver_Direct, solver_Adjoint,
-                            solver_Terminal, dom, Xn, p, nx, ny)
+                            solver_Terminal, dom, Xn, p, nx, ny, s)
             dJnp = proj_grad(Xn, dJn, e, C, method)
             JDJ.append(write_history(Jn, dJn, dJnp, e))
             n = n + 1
@@ -335,7 +325,7 @@ if powit == 0 :
 
             if LS == 1:
                 [Jc, dJc] = DAL(solver_Direct, solver_Adjoint,
-                                solver_Terminal, dom, Xc, p, nx, ny)
+                                solver_Terminal, dom, Xc, p, nx, ny, s)
                 dJcp = proj_grad(Xc, dJc, e, C, method)
                 JDJ.append(write_history(Jc, dJc, dJcp, e))
                 n = n + 1
@@ -358,7 +348,7 @@ if powit == 0 :
 
                 Xn = update_pos(Xc, L, e, C, method)
                 [Jn, dJn] = DAL(solver_Direct, solver_Adjoint,
-                                solver_Terminal, dom, Xn, p, nx, ny)
+                                solver_Terminal, dom, Xn, p, nx, ny, s)
                 dJnp = proj_grad(Xn, dJn, e, C, method)
                 JDJ.append(write_history(Jn, dJn, dJnp, e))
                 n = n + 1
@@ -368,7 +358,7 @@ if powit == 0 :
                         print("Line search interpolation unsuccessful ... \n")
                     Xn = Xc
                     [Jc, dJc] = DAL(solver_Direct, solver_Adjoint,
-                                    solver_Terminal, dom, Xc, p, nx, ny)
+                                    solver_Terminal, dom, Xc, p, nx, ny, s)
                     dJcp = proj_grad(Xc, dJc, e, C, method)
                     JDJ.append(write_history(Jc, dJc, dJcp, e))
                     n = n + 1
@@ -381,7 +371,7 @@ if powit == 0 :
             elif LSI == 0:
                 Xn = Xc
                 [Jc, dJc] = DAL(solver_Direct, solver_Adjoint,
-                                solver_Terminal, dom, Xc, p, nx, ny)
+                                solver_Terminal, dom, Xc, p, nx, ny, s)
                 dJcp = proj_grad(Xc, dJc, e, C, method)
                 JDJ.append(write_history(Jc, dJc, dJcp, e))
                 n = n + 1
@@ -442,7 +432,7 @@ if powit == 1:
     while res > tol && dres > epsilon :
 
         Xn = L * (C / (L2Norm(L)))
-        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn, p, nx, ny)
+        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn, p, nx, ny, s)
         dJnp = proj_grad(Xn, dJn, 1., C, 'rot')
         JDJ.append(write_history(Jn, dJn, dJnp, 1.))
         n = n + 1

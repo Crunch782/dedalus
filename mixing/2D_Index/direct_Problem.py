@@ -5,7 +5,7 @@ from dedalus import public as de
 def direct_Problem(domain, Re, Pe, T):
 
   # Create Problem
-  problem = de.IVP(domain, variables=['p','u','v','ux','vx','uy','vy','s','sx','sy'])
+  problem = de.IVP(domain, variables=['p','u','v','ux','vx','uy','vy','r','rx','ry'])
 
   # Parameters
   problem.parameters['nu'] = 1./Re
@@ -14,7 +14,7 @@ def direct_Problem(domain, Re, Pe, T):
   # Equations
   problem.add_equation("dt(u) + dx(p) - nu*(dx(ux) + dy(uy)) = -u*ux -v*uy")
   problem.add_equation("dt(v) + dy(p) - nu*(dx(vx) + dy(vy)) = -u*vx -v*vy")
-  problem.add_equation("dt(s)         - vu*(dx(sx) + dy(sy)) = -u*sx -v*sy")
+  problem.add_equation("dt(r)         - vu*(dx(sx) + dy(sy)) = -u*sx -v*sy")
 
   # Gauge Condition
   problem.add_equation("dx(u) + dy(v) = 0", condition="(nx != 0) or (ny != 0)")
@@ -23,10 +23,10 @@ def direct_Problem(domain, Re, Pe, T):
   # First Order
   problem.add_equation("dx(u) - ux = 0")
   problem.add_equation("dx(v) - vx = 0")
-  problem.add_equation("dx(s) - sx = 0")
+  problem.add_equation("dx(r) - rx = 0")
   problem.add_equation("dy(u) - uy = 0")
   problem.add_equation("dy(v) - vy = 0")
-  problem.add_equation("dy(s) - sy = 0")
+  problem.add_equation("dy(r) - ry = 0")
 
   # Create Solver
   solver = problem.build_solver(de.timesteppers.RK443)

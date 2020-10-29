@@ -28,7 +28,7 @@ import sys
 
 """
 
-Code for generating results from the optimal solution u0 for mixing problem. Code works as follows:
+Code for generating results from the optimal solution u0 for mixing problem.
 
 
 """

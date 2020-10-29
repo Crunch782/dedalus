@@ -12,7 +12,7 @@ from dedalus import public as de
 from param import param
 
 
-def DAL(solver_Direct, solver_Adjoint, dom, Q, p, nx, ny):
+def DAL(solver_Direct, solver_Adjoint, dom, Q, p, nx, ny, s):
 
     u0 = []
     v0 = []
@@ -24,11 +24,11 @@ def DAL(solver_Direct, solver_Adjoint, dom, Q, p, nx, ny):
         arr0[i] = np.reshape(uv[i], (nx, int(ny/p)))
 
     #arr0 contains IC for DAL
-    [J, RT] = direct_NS(solver_Direct, dom, arr0)
+    [J, RT] = direct_Solver(solver_Direct, dom, arr0, s)
     solver_Direct.sim_time = 0.
     solver_Direct.iteration = 0
 
-    [udag, vdag] = adjoint_NS(solver_Adjoint, dom, RT)
+    [udag, vdag] = adjoint_Solver(solver_Adjoint, dom, RT)
     solver_Adjoint.sim_time = 0.
     solver_Adjoint.iteration = 0
 
