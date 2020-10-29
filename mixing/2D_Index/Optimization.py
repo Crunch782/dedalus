@@ -23,12 +23,13 @@ from dedalus.extras.flow_tools import GlobalArrayReducer
 from mpi4py import MPI
 import h5py
 import sys
+from datetime import datetime
 
-[Re, Pe, nx, ny, T, Td, L, da, e0, Vol, mag] = parameters()
+[Re, Pe, nx, ny, T, Td, L, da, e0, Vol, mag, p] = parameters()
 
 """
 
-Code for performing Direct-Adjoint Looping Calculations for mixing problem. Code works as follows:
+Code for performing Direct-Adjoint Looping (DAL) Calculations for mixing problem. Code works as follows:
 
 1. At t=0: (u0, v0) = (scaled) noise
 
@@ -40,7 +41,7 @@ Code for performing Direct-Adjoint Looping Calculations for mixing problem. Code
 
 5. Use (f0, g0) to update (u0, v0)
 
-6. Repeat 1.-5. until convergence criteria is satisfied
+6. Repeat 1. - 5. until convergence criteria is satisfied
 
 The optimization algorithm in this script is based on code from https://www.repository.cam.ac.uk/handle/1810/278450
  which is based on the method described in Appendix A of Foures, Caulfield & Schmid 2012 (Journal of Fluid Mechanics).
@@ -55,12 +56,6 @@ reducer = GlobalArrayReducer(dom.distributor.comm)
 comm = MPI.COMM_WORLD
 size = comm.size
 rank = comm.rank
-
-# Function to check memory usage after each DAL run
-def memPrint():
-    process = psutil.Process(os.getpid())
-    if rank == 0:
-        print("\nMemory usage = ", 1e-9*process.memory_info().rss)  # in bytes
 
 
 # Methods needed for running the update algorithm
@@ -119,8 +114,9 @@ def display(JVEC, n):
     residualNorm = np.square(JVEC[n][4])
     residual = np.square(JVEC[n][2])
 
-    print("AFTER ", n, " LOOPS: RESIDUAL = ", residual,
-          "| NORMALIZED RESIDUAL = ", residualNorm)
+    if rank == 0:
+        print("After ", n, " loops: Residual = ", residual,
+              "| Normalized Residual = ", residualNorm " ... \n")
     return [residual, residualNorm]
 
 
@@ -170,39 +166,85 @@ if rank == 0:
     print("Perturbation Energy Density = ", e0)
     print("error = ", err)
 
-# Start
-#Xn = np.concatenate((a, b), axis=None)
-
-with h5py.File('./VT2/'+str(rank)+'.h5', 'r') as hf:
-    Xn = hf['./VT2/'+str(rank)][:]
-
-Csq = reducer.reduce_scalar(np.square(LA.norm(Xn)), MPI.SUM)
-epsilon = 2.2204e-16
-
 """
 
 ############## ALGORITHM PARAMETERS ##############
 
 """
 
-
+epsilon = 2.2204e-16                # Same as eps in MATLAB
+write = 0                           # Write to file 0 for no (default), 1 for yes
+resMin = 1.                         # The minimum residual (from current and previous)
 K = float(sys.argv[1])              # Gradient Search Line Multiplication Factor
 r = float(sys.argv[2])              # Factor when step too large
 eps = 0.01                          # Normalized Residual Tolerance (aim for O(0.001))
-tol = epsilon*epsilon               # Machine precision for residual
+tol = epsilon**2                    # Machine precision for residual
 e0init = float(sys.argv[3])         # Initial Step or Angle or Rotation
 LS = int(sys.argv[4])               # Line Search or Not
 LSI = int(sys.argv[5])              # Line Search Interpolation or Not
 proj = int(sys.argv[6])	            # Projection or not
-C = np.sqrt(Csq)                    # Energy Constraint
 dir = -1.                           # Type of Opt
 method = str(sys.argv[7])	        # Rotational Update ('rot') or Lagrange Multiplier ('lag')
 dmethod = str(sys.argv[8])          # Direction update, conj graident ('conj') or steepest descent ('grad')
-powit = int(sys.argv[9])
-N = 300                             # Max number of DALs performed
+powit = int(sys.argv[9])            # Power iteration method
+N = int(sys.argv[10])               # Max number of DALs performed
+start = str(sys.argv[11])           # Starting from noise or continuing from a previous run
+sstr = str(sys.argv[12])            # s index as string
+s = float(sys.argv[13])             # s as real
+if start == 'cont':
+    resMin = float(sys.argv[14])    # Previous min residual
 
 if rank == 0:
-    print("PARAMETERS ARE: K = ", K, " | r = ", r, " | e0init = ", e0init, " | LS = ", LS, " | LSI = ", LSI, " | proj = ", proj, " | method = ", method, " | dmethod = ", dmethod)
+    print("\n\n=====Optimization Algorithm Parameters=====\n")
+    print("K       = ", K)
+    print("r       = ", r)
+    print("e0init  = ", e0init)
+    print("LS      = ", LS)
+    print("LSI     = ", LSI)
+    print("proj    = ", proj)
+    print("method  = ", method)
+    print("dmethod = ", dmethod)
+    print("powit   = ", powit)
+    print("N       = ", N)
+    print("start   = ", start)
+    print("sstr    = ", sstr)
+    print("s       = ", s)
+    if start == 'cont':
+        print("resMin  = ", resMin)
+    print("\n\n===========================================\n")
+
+
+# Set up directory for results and u0
+
+# Set up the s directory, now the results are stored in a folder marked T=... for the target time used which lies inside a folder marked s=... for the index used
+sdir = './s='+sstr
+if not os.path.exists(sdir):
+    os.makedirs(sdir)
+
+sTdir = './'+sdir+'/T='+str(T)
+if not os.path.exists(sTdir):
+    os.makedirs(sTdir)
+
+# Set up folder to hold the IC and the plots
+u0dir = './'+sTdir+'u0'
+if not os.path.exists(u0dir):
+    os.makedirs(u0dir)
+plotdir = './'+sTdir+'Plots'
+if not os.path.exists(plotdir):
+    os.makedirs(plotdir)
+
+# Create the IC/Reload previous IC
+if rank == 0:
+    if start == 'rand':
+        print("Starting from Random IC ... \n")
+        Xn = np.concatenate((a, b), axis=None)
+    elif start == 'cont':
+        print("Continuing from previous solution ... \n")
+        with h5py.File(u0dir+str(rank)+'.h5', 'r') as hf:
+            Xn = hf[u0dir+str(rank)][:]
+
+Csq = reducer.reduce_scalar(np.square(LA.norm(Xn)), MPI.SUM)
+C = np.sqrt(Csq)
 
 """
 
@@ -218,7 +260,7 @@ if rank == 0:
 JDJ = []
 n = 0
 
-[J0, dJ0] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn)
+[J0, dJ0] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn, p, nx, ny)
 dJ0p = proj_grad(Xn, dJ0, e0init, C, method)
 JDJ.append(write_history(J0, dJ0, dJ0p, e0init))
 n = n + 1
@@ -236,6 +278,8 @@ if powit == 0 :
     dres = 1.
     while res > eps and n < N and dres > tol:
 
+        if rank == 0:
+            print("Starting Loop ", n, " ... \n")
         e = e0
 
         # Current Value
@@ -248,7 +292,7 @@ if powit == 0 :
         Xn = update_pos(Xc, L, e, C, method)
 
         # Evaluate
-        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn)
+        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn, p, nx, ny)
         dJnp = proj_grad(Xn, dJn, e, C, method)
         JDJ.append(write_history(Jn, dJn, dJnp, e))
         n = n + 1
@@ -259,6 +303,8 @@ if powit == 0 :
 
         # Line Search
         while dir*(Jn - Jc) > 0.:
+            if rank == 0:
+                print("Starting Line Search ... \n")
             nl = nl + 1
 
             Xc = Xn
@@ -268,7 +314,7 @@ if powit == 0 :
             e = K * e
             Xn = update_pos(Xc, L, e, C, method)
             [Jn, dJn] = DAL(solver_Direct, solver_Adjoint,
-                            solver_Terminal, dom, Xn)
+                            solver_Terminal, dom, Xn, p, nx, ny)
             dJnp = proj_grad(Xn, dJn, e, C, method)
             JDJ.append(write_history(Jn, dJn, dJnp, e))
             n = n + 1
@@ -276,17 +322,20 @@ if powit == 0 :
             Js.append(Jn)
 
         if nl == 0:
+            if rank == 0:
+                print("First line search failed ... reducing step size from ", e0, " to ", r*e0 " ... \n")
             e0 = r * e0
             Xc = Xold
             dJc = dJold
             Jc = Jold
+
 
         if nl == 1:
             Xn = Xc
 
             if LS == 1:
                 [Jc, dJc] = DAL(solver_Direct, solver_Adjoint,
-                                solver_Terminal, dom, Xc)
+                                solver_Terminal, dom, Xc, p, nx, ny)
                 dJcp = proj_grad(Xc, dJc, e, C, method)
                 JDJ.append(write_history(Jc, dJc, dJcp, e))
                 n = n + 1
@@ -297,6 +346,8 @@ if powit == 0 :
 
         if nl > 1:
             if LSI == 1:
+                if rank == 0:
+                    print("Line search from ", min(s), " to ", max(s), " ... \n")
                 si = np.linspace(s[0], s[nl], num=100)
                 coefs = np.polyfit(s, Js, np.size(s) - 1)
                 Jsi = 0*si
@@ -307,26 +358,30 @@ if powit == 0 :
 
                 Xn = update_pos(Xc, L, e, C, method)
                 [Jn, dJn] = DAL(solver_Direct, solver_Adjoint,
-                                solver_Terminal, dom, Xn)
+                                solver_Terminal, dom, Xn, p, nx, ny)
                 dJnp = proj_grad(Xn, dJn, e, C, method)
                 JDJ.append(write_history(Jn, dJn, dJnp, e))
                 n = n + 1
 
                 if(-1.*dir*(Jn - Jc) > 0):
+                    if rank == 0:
+                        print("Line search interpolation unsuccessful ... \n")
                     Xn = Xc
                     [Jc, dJc] = DAL(solver_Direct, solver_Adjoint,
-                                    solver_Terminal, dom, Xc)
+                                    solver_Terminal, dom, Xc, p, nx, ny)
                     dJcp = proj_grad(Xc, dJc, e, C, method)
                     JDJ.append(write_history(Jc, dJc, dJcp, e))
                     n = n + 1
                 else:
+                    if rank == 0:
+                        print("Line search interpolation successful ... \n")
                     Xc = Xn
                     Jc = Jn
                     dJc = dJn
             elif LSI == 0:
                 Xn = Xc
                 [Jc, dJc] = DAL(solver_Direct, solver_Adjoint,
-                                solver_Terminal, dom, Xc)
+                                solver_Terminal, dom, Xc, p, nx, ny)
                 dJcp = proj_grad(Xc, dJc, e, C, method)
                 JDJ.append(write_history(Jc, dJc, dJcp, e))
                 n = n + 1
@@ -354,17 +409,29 @@ if powit == 0 :
         e0 = min(e0init, (L2Norm(dJoldp)/L2Norm(dJcp))*e0)
         if LS == 0:
             e0 = e0 * K
-        print("NEW STEP SIZE = ", e0)
+            if rank == 0:
+                print("New step size = ", e0, " ... \n")
+
 
         dJcp = proj_grad(Xc, dJc, e, C, method)
         RES = display(JDJ, n-1)
         dres = RES[0]
         res = RES[1]
 
+        if res < resMin:
+            resMin = res
+            write = 1
+
         dJoldp = dJcp
         dJold = dJcp
         Jold = Jc
         Xold = Xn
+
+        # Write to u0 file if solution has a lower residual than the running residual
+        if write == 1:
+            with h5py.File(u0dir+str(rank)+'.h5', 'w') as hf:
+                 hf.create_dataset(u0dir+str(rank),  data=Xold)
+            write = 0
 
 if powit == 1:
 
@@ -375,7 +442,7 @@ if powit == 1:
     while res > tol && dres > epsilon :
 
         Xn = L * (C / (L2Norm(L)))
-        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn)
+        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn, p, nx, ny)
         dJnp = proj_grad(Xn, dJn, 1., C, 'rot')
         JDJ.append(write_history(Jn, dJn, dJnp, 1.))
         n = n + 1
@@ -389,24 +456,15 @@ if powit == 1:
         L = dir*dJn
         Jold = Jn
 
-
 Xopt = Xold
 neval = n
 
-
-#with h5py.File('./VT2/'+str(rank)+'.h5', 'w') as hf:
-#    hf.create_dataset('./VT2/'+str(rank),  data=Xold)
-
-uOpt = []
-vOpt = []
-
-# Convert Q to the field
-arrOpt = [uOpt, vOpt]
-uvOpt = np.array_split(Xopt, [nx*int(ny/8)])
-for i in range(0, 2):
-    arrOpt[i] = np.reshape(uvOpt[i], (nx, int(ny/8)))
-
-diag_NS(solver_Diag, solver_Terminal, dom, arrOpt, rank)
-
 if rank == 0:
-    print("PROGRAM COMPLETE!")
+    if res < eps:
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        print("Convergence Reached with r = ", res, " after ", neval, " loops ... Optimization Complete at ", current_time)
+    elif n == N:
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        print("Hit Loop Limit N = ", n, " ... Program Complete at ", current_time)
