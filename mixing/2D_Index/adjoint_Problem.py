@@ -18,10 +18,10 @@ def adjoint_Problem(domain, Re, Pe, T):
 
   V = de.operators.GeneralFunction(domain,'g',direct_V,args=[])
 
-  def direct_S(solver):
-    return checkpoints.slist[solver.iteration]
+  def direct_R(solver):
+    return checkpoints.rlist[solver.iteration]
 
-  S = de.operators.GeneralFunction(domain,'g',direct_S,args=[])
+  R = de.operators.GeneralFunction(domain,'g',direct_R,args=[])
 
   # Define Problem
   problem = de.IVP(domain, variables=['q','f','g','fx','gx','fy','gy','c','cx','cy'])
@@ -29,13 +29,13 @@ def adjoint_Problem(domain, Re, Pe, T):
   # Define parameters
   problem.parameters['U'] = U
   problem.parameters['V'] = V
-  problem.parameters['S'] = S
+  problem.parameters['R'] = R
   problem.parameters['nu'] = 1./Re
   problem.parameters['vu'] = 1./Pe
 
   # Define equations
-  problem.add_equation("dt(f) - dx(q) - nu*(dx(fx) + dy(fy)) = -c*dx(S) + U*fx + V*fy ")
-  problem.add_equation("dt(g) - dy(q) - nu*(dx(gx) + dy(gy)) = -c*dy(S) + U*gx + V*gy")
+  problem.add_equation("dt(f) - dx(q) - nu*(dx(fx) + dy(fy)) = -c*dx(R) + U*fx + V*fy ")
+  problem.add_equation("dt(g) - dy(q) - nu*(dx(gx) + dy(gy)) = -c*dy(R) + U*gx + V*gy")
   problem.add_equation("dt(c)         - vu*(dx(cx) + dy(cy)) =            U*cx + V*cy")
 
   # Define Gauge Condition
@@ -60,8 +60,6 @@ def adjoint_Problem(domain, Re, Pe, T):
   U.original_args = [solver]
   V.args = [solver]
   V.original_args = [solver]
-  W.args = [solver]
-  W.original_args = [solver]
   R.args = [solver]
   R.original_args = [solver]
 

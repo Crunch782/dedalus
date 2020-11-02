@@ -5,5 +5,5 @@ def checkpoints():
     ulist = []
     global vlist
     vlist = []
-    global slist
-    slist = []
+    global rlist
+    rlist = []

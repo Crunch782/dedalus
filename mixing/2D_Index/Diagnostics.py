@@ -1,3 +1,4 @@
+"""
 from DAL import DAL
 from grid import grid
 from direct_Problem import direct_Problem
@@ -26,12 +27,12 @@ import sys
 
 [Re, Pe, nx, ny, T, Td, L, da, e0, Vol, mag, p] = parameters()
 
-"""
+
 
 Code for generating results from the optimal solution u0 for mixing problem.
 
 
-"""
+
 
 uOpt = []
 vOpt = []
@@ -49,3 +50,4 @@ diag_NS(solver_Diag, solver_Terminal, dom, arrOpt, rank)
 
 if rank == 0:
     print("Diagnostics Complete!")
+"""

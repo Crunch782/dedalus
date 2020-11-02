@@ -2,15 +2,14 @@ from DAL import DAL
 from grid import grid
 from direct_Problem import direct_Problem
 from adjoint_Problem import adjoint_Problem
-from diag_Problem import diag_Problem
+#from diag_Problem import diag_Problem
 from direct_Solver import direct_Solver
 from adjoint_Solver import adjoint_Solver
 import os
-import psutil
 import numpy as np
 from numpy import linalg as LA
 from dedalus import public as de
-from paramaters import paramaters
+from parameters import parameters
 import array as ar
 import checkpoints
 import operator as op
@@ -20,7 +19,7 @@ import h5py
 import sys
 from datetime import datetime
 
-[Re, Pe, nx, ny, T, Td, L, da, e0, Vol, mag, p] = parameters()
+[Re, Pe, nx, ny, T, Td, L, da, e0, Vol, mag, p] = parameters(float(sys.argv[1]), float(sys.argv[2]))
 
 """
 
@@ -111,7 +110,7 @@ def display(JVEC, n):
 
     if rank == 0:
         print("After ", n, " loops: Residual = ", residual,
-              "| Normalized Residual = ", residualNorm " ... \n")
+              "| Normalized Residual = ", residualNorm, " ... \n")
     return [residual, residualNorm]
 
 
@@ -145,17 +144,6 @@ E = mag / (R * np.sqrt(dA))
 a = a * E
 b = b * E
 
-# Check Constraint is Satisfied by Computing the KE
-u1 = reducer.reduce_scalar(np.square(LA.norm(a)), MPI.SUM)
-u2 = reducer.reduce_scalar(np.square(LA.norm(b)), MPI.SUM)
-KE = (1./(2.*Vol))*(u1 + u2)*dA
-err = abs(KE - e0)
-
-if rank == 0:
-    print("1/2 ||u0||^2 = ", KE)
-    print("Perturbation Energy Density = ", e0)
-    print("error = ", err)
-
 """
 
 ############## ALGORITHM PARAMETERS ##############
@@ -165,24 +153,24 @@ if rank == 0:
 epsilon = 2.2204e-16                # Same as eps in MATLAB
 write = 0                           # Write to file 0 for no (default), 1 for yes
 resMin = 1.                         # The minimum residual (from current and previous)
-K = float(sys.argv[1])              # Gradient Search Line Multiplication Factor
-r = float(sys.argv[2])              # Factor when step too large
+K = float(sys.argv[3])              # Gradient Search Line Multiplication Factor
+r = float(sys.argv[4])              # Factor when step too large
 eps = 0.01                          # Normalized Residual Tolerance (aim for O(0.001))
 tol = epsilon**2                    # Machine precision for residual
-e0init = float(sys.argv[3])         # Initial Step or Angle or Rotation
-LS = int(sys.argv[4])               # Line Search or Not
-LSI = int(sys.argv[5])              # Line Search Interpolation or Not
-proj = int(sys.argv[6])	            # Projection or not
+e0init = float(sys.argv[5])         # Initial Step or Angle or Rotation
+LS = int(sys.argv[6])               # Line Search or Not
+LSI = int(sys.argv[7])              # Line Search Interpolation or Not
+proj = int(sys.argv[8])	            # Projection or not
 dir = -1.                           # Type of Opt
-method = str(sys.argv[7])	        # Rotational Update ('rot') or Lagrange Multiplier ('lag')
-dmethod = str(sys.argv[8])          # Direction update, conj graident ('conj') or steepest descent ('grad')
-powit = int(sys.argv[9])            # Power iteration method
-N = int(sys.argv[10])               # Max number of DALs performed
-start = str(sys.argv[11])           # Starting from noise or continuing from a previous run
-sstr = str(sys.argv[12])            # s index as string
-s = float(sys.argv[13])             # s as real
+method = str(sys.argv[9])	        # Rotational Update ('rot') or Lagrange Multiplier ('lag')
+dmethod = str(sys.argv[10])          # Direction update, conj graident ('conj') or steepest descent ('grad')
+powit = int(sys.argv[11])            # Power iteration method
+N = int(sys.argv[12])               # Max number of DALs performed
+start = str(sys.argv[13])           # Starting from noise or continuing from a previous run
+sstr = str(sys.argv[14])            # s index as string
+s = float(sys.argv[14])             # s as real
 if start == 'cont':
-    resMin = float(sys.argv[14])    # Previous min residual
+    resMin = float(sys.argv[15])    # Previous min residual
 
 if rank == 0:
     print("\n\n=====Optimization Algorithm Parameters=====\n")
@@ -207,34 +195,45 @@ if rank == 0:
 # Set up directory for results and u0
 
 # Set up the s directory, now the results are stored in a folder marked T=... for the target time used which lies inside a folder marked s=... for the index used
-sdir = './s='+sstr
-if not os.path.exists(sdir):
-    os.makedirs(sdir)
+if rank == 0:
+    sdir = './Results/Re='+str(Re)
+    if not os.path.exists(sdir):
+        os.makedirs(sdir)
 
-sTdir = './'+sdir+'/T='+str(T)
-if not os.path.exists(sTdir):
-    os.makedirs(sTdir)
+    sTdir = sdir+'/s='+sstr
+    if not os.path.exists(sTdir):
+        os.makedirs(sTdir)
 
-# Set up folder to hold the IC and the plots
-u0dir = './'+sTdir+'u0'
-if not os.path.exists(u0dir):
-    os.makedirs(u0dir)
-plotdir = './'+sTdir+'Plots'
-if not os.path.exists(plotdir):
-    os.makedirs(plotdir)
+    sTRdir = sTdir+'/T='+str(T)
+    if not os.path.exists(sTRdir):
+        os.makedirs(sTRdir)
+
+    # Set up folder to hold the IC and the plots
+    u0dir = sTRdir+'/u0'
+    if not os.path.exists(u0dir):
+        os.makedirs(u0dir)
+    plotdir = sTRdir+'/Plots'
+    if not os.path.exists(plotdir):
+        os.makedirs(plotdir)
+
+Xn = []
 
 # Create the IC/Reload previous IC
-if rank == 0:
-    if start == 'rand':
+if start == 'rand':
+    if rank == 0:
         print("Starting from Random IC ... \n")
-        Xn = np.concatenate((a, b), axis=None)
-    elif start == 'cont':
+    Xn = np.concatenate((a, b), axis=None)
+    Csq = reducer.reduce_scalar(np.square(LA.norm(Xn)), MPI.SUM)
+    C = np.sqrt(Csq)
+elif start == 'cont':
+    if rank == 0:
         print("Continuing from previous solution ... \n")
-        with h5py.File(u0dir+str(rank)+'.h5', 'r') as hf:
-            Xn = hf[u0dir+str(rank)][:]
+    with h5py.File(u0dir+str(rank)+'.h5', 'r') as hf:
+        Xn = hf[u0dir+str(rank)][:]
+    Csq = reducer.reduce_scalar(np.square(LA.norm(Xn)), MPI.SUM)
+    C = np.sqrt(Csq)
 
-Csq = reducer.reduce_scalar(np.square(LA.norm(Xn)), MPI.SUM)
-C = np.sqrt(Csq)
+
 
 """
 
@@ -250,7 +249,7 @@ C = np.sqrt(Csq)
 JDJ = []
 n = 0
 
-[J0, dJ0] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn, p, nx, ny, s)
+[J0, dJ0] = DAL(solver_Direct, solver_Adjoint, dom, Xn, p, nx, ny, s)
 dJ0p = proj_grad(Xn, dJ0, e0init, C, method)
 JDJ.append(write_history(J0, dJ0, dJ0p, e0init))
 n = n + 1
@@ -282,7 +281,7 @@ if powit == 0 :
         Xn = update_pos(Xc, L, e, C, method)
 
         # Evaluate
-        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn, p, nx, ny, s)
+        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, dom, Xn, p, nx, ny, s)
         dJnp = proj_grad(Xn, dJn, e, C, method)
         JDJ.append(write_history(Jn, dJn, dJnp, e))
         n = n + 1
@@ -304,7 +303,7 @@ if powit == 0 :
             e = K * e
             Xn = update_pos(Xc, L, e, C, method)
             [Jn, dJn] = DAL(solver_Direct, solver_Adjoint,
-                            solver_Terminal, dom, Xn, p, nx, ny, s)
+                            dom, Xn, p, nx, ny, s)
             dJnp = proj_grad(Xn, dJn, e, C, method)
             JDJ.append(write_history(Jn, dJn, dJnp, e))
             n = n + 1
@@ -313,7 +312,7 @@ if powit == 0 :
 
         if nl == 0:
             if rank == 0:
-                print("First line search failed ... reducing step size from ", e0, " to ", r*e0 " ... \n")
+                print("First line search failed ... reducing step size from ", e0, " to ", r*e0, " ... \n")
             e0 = r * e0
             Xc = Xold
             dJc = dJold
@@ -325,7 +324,7 @@ if powit == 0 :
 
             if LS == 1:
                 [Jc, dJc] = DAL(solver_Direct, solver_Adjoint,
-                                solver_Terminal, dom, Xc, p, nx, ny, s)
+                                dom, Xc, p, nx, ny, s)
                 dJcp = proj_grad(Xc, dJc, e, C, method)
                 JDJ.append(write_history(Jc, dJc, dJcp, e))
                 n = n + 1
@@ -348,7 +347,7 @@ if powit == 0 :
 
                 Xn = update_pos(Xc, L, e, C, method)
                 [Jn, dJn] = DAL(solver_Direct, solver_Adjoint,
-                                solver_Terminal, dom, Xn, p, nx, ny, s)
+                                dom, Xn, p, nx, ny, s)
                 dJnp = proj_grad(Xn, dJn, e, C, method)
                 JDJ.append(write_history(Jn, dJn, dJnp, e))
                 n = n + 1
@@ -358,7 +357,7 @@ if powit == 0 :
                         print("Line search interpolation unsuccessful ... \n")
                     Xn = Xc
                     [Jc, dJc] = DAL(solver_Direct, solver_Adjoint,
-                                    solver_Terminal, dom, Xc, p, nx, ny, s)
+                                    dom, Xc, p, nx, ny, s)
                     dJcp = proj_grad(Xc, dJc, e, C, method)
                     JDJ.append(write_history(Jc, dJc, dJcp, e))
                     n = n + 1
@@ -371,7 +370,7 @@ if powit == 0 :
             elif LSI == 0:
                 Xn = Xc
                 [Jc, dJc] = DAL(solver_Direct, solver_Adjoint,
-                                solver_Terminal, dom, Xc, p, nx, ny, s)
+                                dom, Xc, p, nx, ny, s)
                 dJcp = proj_grad(Xc, dJc, e, C, method)
                 JDJ.append(write_history(Jc, dJc, dJcp, e))
                 n = n + 1
@@ -429,10 +428,10 @@ if powit == 1:
     res = 1.
     dres = 1.
 
-    while res > tol && dres > epsilon :
+    while res > tol and dres > epsilon :
 
         Xn = L * (C / (L2Norm(L)))
-        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, solver_Terminal, dom, Xn, p, nx, ny, s)
+        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, dom, Xn, p, nx, ny, s)
         dJnp = proj_grad(Xn, dJn, 1., C, 'rot')
         JDJ.append(write_history(Jn, dJn, dJnp, 1.))
         n = n + 1

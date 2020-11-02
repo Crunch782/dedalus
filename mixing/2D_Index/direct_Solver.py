@@ -4,10 +4,11 @@ import checkpoints
 from dedalus import public as de
 from dedalus.extras import flow_tools
 from terminal import terminal
+import time
 import logging
 logger = logging.getLogger(__name__)
 
-def direct_Solver(solver, domain, ls, s):
+def direct_Solver(solver, domain, ls, s, pn, nx, ny):
 
     # Set domain and variables
     x = domain.grid(0)
@@ -37,7 +38,6 @@ def direct_Solver(solver, domain, ls, s):
     r.differentiate('y', out=ry)
     u.set_scales(1)
     v.set_scales(1)
-    w.set_scales(1)
     r.set_scales(1)
 
     # Set list
@@ -74,6 +74,6 @@ def direct_Solver(solver, domain, ls, s):
 
     # Compute The Terminal Condition
     r.set_scales(1)
-    [J, Rt] = terminal(x, y, nx, ny, r['c'], s, domain)
+    [J, Rt] = terminal(x, y, nx, ny, r['c'], s, pn, domain)
 
     return [J, Rt]

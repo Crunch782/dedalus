@@ -14,7 +14,7 @@ def direct_Problem(domain, Re, Pe, T):
   # Equations
   problem.add_equation("dt(u) + dx(p) - nu*(dx(ux) + dy(uy)) = -u*ux -v*uy")
   problem.add_equation("dt(v) + dy(p) - nu*(dx(vx) + dy(vy)) = -u*vx -v*vy")
-  problem.add_equation("dt(r)         - vu*(dx(sx) + dy(sy)) = -u*sx -v*sy")
+  problem.add_equation("dt(r)         - vu*(dx(rx) + dy(ry)) = -u*rx -v*ry")
 
   # Gauge Condition
   problem.add_equation("dx(u) + dy(v) = 0", condition="(nx != 0) or (ny != 0)")

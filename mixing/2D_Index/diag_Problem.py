@@ -1,3 +1,4 @@
+"""
 import numpy as np
 from dedalus import public as de
 
@@ -34,3 +35,4 @@ def diag_Problem(domain, Re, Pe, Td):
   solver.stop_iterations = np.inf
 
   return solver
+"""

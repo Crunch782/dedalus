@@ -1,0 +1,29 @@
+==================================================================
+
+The parameters entered to the program are in the following order:
+
+==================================================================
+
+1.  T       = Target Optimization Time        (eg 2.0)
+2.  Re      = Reynolds number                 (eg 50.0)
+3.  K       = Step Factor (if too small)      (eg 2.0)
+4.  r       = Step factor (if too big)        (eg 0.5)
+5.  e0init  = Initial Step                    (eg 1.0)
+6.  LS      = Line Search/Not                 (eg 1)
+7.  LSI     = Line Search Interpolation/Not   (eg 1)
+8.  proj    = Projection onto surface/Not     (eg 1)
+9.  method  = rot/Lag update on u0            (eg 'rot')
+10. dmethod = conj/grad direction update      (eg 'conj')
+11. powit   = Power iteration                 (eg 0)
+12. N       = Max number of loops             (eg 50)
+13. start   = rand/cont IC                    (eg 'rand')
+14. sstr=s  = s index value                   (eg 0.5)
+15. resMin  = Minimum res achieved in last    (determined from a previous output, eg 0.157...)
+
+
+With the above suggested parameters (assuming starting from scratch with start = 'rand') the
+command to run the DAL algorithm would be:
+
+mpiexec --oversubscribe -n 8 python3 Optimization.py 2.0 50.0 2.0 0.5 1.0 1 1 1 rot conj 0 50 rand 0.5
+
+The parameter ... -n 8 ... must be set directly in parameters.py in line 15 (eg p = 8).

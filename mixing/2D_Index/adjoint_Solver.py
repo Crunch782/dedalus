@@ -29,16 +29,10 @@ def adjoint_Solver(solver, domain, RT):
 
     f.differentiate('x', out=fx)
     f.differentiate('y', out=fy)
-    f.differentiate('z', out=fz)
     g.differentiate('x', out=gx)
     g.differentiate('y', out=gy)
-    g.differentiate('z', out=gz)
-    h.differentiate('x', out=hx)
-    h.differentiate('y', out=hy)
-    h.differentiate('z', out=hz)
     c.differentiate('x', out=cx)
     c.differentiate('y', out=cy)
-    c.differentiate('z', out=cz)
 
 
     # Main loop
