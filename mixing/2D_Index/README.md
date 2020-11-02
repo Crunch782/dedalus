@@ -2,9 +2,16 @@
 
 ## Instructions
 
+To start the code the following commands must be set to create the Results and Output directories.
+
+```bash
+mkdir Results
+mkdir Output
+```
+
 There are two main files. Optimization.py runs the Direct-Adjoint process, converges to a solution and writes it to a directory in the Results folder. If an index of value s=0.5 is used and a target time of T=2 is prescribed then the result of that calculation will be stored in Results/Re=50.0/s=0.5/T=2/u0/.
 
-In order to run the Optimization Algorithm, the algorithm parameters must be set. This is done by entering the values via the command line. The file parameters.txt contains a list of these parameters and their purpose. Once the parameters have been chosen they may be entered into generate.py in order to generate the batch script run.sh (configured for the HPC at the University of Cambridge). The solution is then computed by running:
+In order to run the Optimization Algorithm, the algorithm parameters must be set. This is done by entering the values via the command line. The file Parameters.txt contains a list of these parameters and their purpose. Once the parameters have been chosen they may be entered into generate.py in order to generate the batch script run.sh (configured for the HPC at the University of Cambridge). The solution is then computed by running:
 
 ```bash
 sbatch run.sh
