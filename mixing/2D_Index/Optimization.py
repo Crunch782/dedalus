@@ -155,7 +155,7 @@ write = 0                           # Write to file 0 for no (default), 1 for ye
 resMin = 1.                         # The minimum residual (from current and previous)
 K = float(sys.argv[3])              # Gradient Search Line Multiplication Factor
 r = float(sys.argv[4])              # Factor when step too large
-eps = 0.01                          # Normalized Residual Tolerance (aim for O(0.001))
+eps = 0.002                          # Normalized Residual Tolerance (aim for O(0.001))
 tol = epsilon**2                    # Machine precision for residual
 e0init = float(sys.argv[5])         # Initial Step or Angle or Rotation
 LS = int(sys.argv[6])               # Line Search or Not
@@ -209,7 +209,7 @@ if rank == 0:
         os.makedirs(sTRdir)
 
     # Set up folder to hold the IC and the plots
-    u0dir = sTRdir+'/u0'
+    u0dir = sTRdir+'/u0_'
     if not os.path.exists(u0dir):
         os.makedirs(u0dir)
     plotdir = sTRdir+'/Plots'
@@ -249,7 +249,7 @@ elif start == 'cont':
 JDJ = []
 n = 0
 
-[J0, dJ0] = DAL(solver_Direct, solver_Adjoint, dom, Xn, p, nx, ny, s)
+[J0, dJ0] = DAL(solver_Direct, solver_Adjoint, dom, Xn, p, nx, ny, s, reducer)
 dJ0p = proj_grad(Xn, dJ0, e0init, C, method)
 JDJ.append(write_history(J0, dJ0, dJ0p, e0init))
 n = n + 1
@@ -281,13 +281,13 @@ if powit == 0 :
         Xn = update_pos(Xc, L, e, C, method)
 
         # Evaluate
-        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, dom, Xn, p, nx, ny, s)
+        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, dom, Xn, p, nx, ny, s, reducer)
         dJnp = proj_grad(Xn, dJn, e, C, method)
         JDJ.append(write_history(Jn, dJn, dJnp, e))
         n = n + 1
 
         nl = 0
-        s = [e]
+        sa = [e]
         Js = [Jn]
 
         # Line Search
@@ -303,11 +303,11 @@ if powit == 0 :
             e = K * e
             Xn = update_pos(Xc, L, e, C, method)
             [Jn, dJn] = DAL(solver_Direct, solver_Adjoint,
-                            dom, Xn, p, nx, ny, s)
+                            dom, Xn, p, nx, ny, s, reducer)
             dJnp = proj_grad(Xn, dJn, e, C, method)
             JDJ.append(write_history(Jn, dJn, dJnp, e))
             n = n + 1
-            s.append(s[nl-1] + e)
+            sa.append(sa[nl-1] + e)
             Js.append(Jn)
 
         if nl == 0:
@@ -324,7 +324,7 @@ if powit == 0 :
 
             if LS == 1:
                 [Jc, dJc] = DAL(solver_Direct, solver_Adjoint,
-                                dom, Xc, p, nx, ny, s)
+                                dom, Xc, p, nx, ny, s, reducer)
                 dJcp = proj_grad(Xc, dJc, e, C, method)
                 JDJ.append(write_history(Jc, dJc, dJcp, e))
                 n = n + 1
@@ -336,18 +336,18 @@ if powit == 0 :
         if nl > 1:
             if LSI == 1:
                 if rank == 0:
-                    print("Line search from ", min(s), " to ", max(s), " ... \n")
-                si = np.linspace(s[0], s[nl], num=100)
-                coefs = np.polyfit(s, Js, np.size(s) - 1)
+                    print("Line search from ", min(sa), " to ", max(sa), " ... \n")
+                si = np.linspace(sa[0], sa[nl], num=100)
+                coefs = np.polyfit(sa, Js, np.size(sa) - 1)
                 Jsi = 0*si
                 for i in range(0, np.size(s)):
                     Jsi = Jsi + coefs[i] * np.power(si, np.size(coefs) - i)
                 [ie, Jext] = min(enumerate(Jsi), key=op.itemgetter(1))
-                e = si[ie] - s[np.size(s) - 1]
+                e = si[ie] - sa[np.size(sa) - 1]
 
                 Xn = update_pos(Xc, L, e, C, method)
                 [Jn, dJn] = DAL(solver_Direct, solver_Adjoint,
-                                dom, Xn, p, nx, ny, s)
+                                dom, Xn, p, nx, ny, s, reducer)
                 dJnp = proj_grad(Xn, dJn, e, C, method)
                 JDJ.append(write_history(Jn, dJn, dJnp, e))
                 n = n + 1
@@ -357,7 +357,7 @@ if powit == 0 :
                         print("Line search interpolation unsuccessful ... \n")
                     Xn = Xc
                     [Jc, dJc] = DAL(solver_Direct, solver_Adjoint,
-                                    dom, Xc, p, nx, ny, s)
+                                    dom, Xc, p, nx, ny, s, reducer)
                     dJcp = proj_grad(Xc, dJc, e, C, method)
                     JDJ.append(write_history(Jc, dJc, dJcp, e))
                     n = n + 1
@@ -370,7 +370,7 @@ if powit == 0 :
             elif LSI == 0:
                 Xn = Xc
                 [Jc, dJc] = DAL(solver_Direct, solver_Adjoint,
-                                dom, Xc, p, nx, ny, s)
+                                dom, Xc, p, nx, ny, s, reducer)
                 dJcp = proj_grad(Xc, dJc, e, C, method)
                 JDJ.append(write_history(Jc, dJc, dJcp, e))
                 n = n + 1
@@ -431,7 +431,7 @@ if powit == 1:
     while res > tol and dres > epsilon :
 
         Xn = L * (C / (L2Norm(L)))
-        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, dom, Xn, p, nx, ny, s)
+        [Jn, dJn] = DAL(solver_Direct, solver_Adjoint, dom, Xn, p, nx, ny, s, reducer)
         dJnp = proj_grad(Xn, dJn, 1., C, 'rot')
         JDJ.append(write_history(Jn, dJn, dJnp, 1.))
         n = n + 1

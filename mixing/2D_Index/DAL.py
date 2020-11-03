@@ -7,19 +7,19 @@ import numpy as np
 import gc
 from numpy import linalg as LA
 from dedalus import public as de
+from mpi4py import MPI
 
-
-def DAL(solver_Direct, solver_Adjoint, dom, Q, p, nx, ny, s):
+def DAL(solver_Direct, solver_Adjoint, dom, Q, p, nx, ny, s, reducer):
 
 
     u0 = []
     v0 = []
-
     #Convert Q to the field
     arr0 = [u0, v0]
     uv = np.array_split(Q, 2)
     for i in range(0, 2):
         arr0[i] = np.reshape(uv[i], (nx, int(ny/p)))
+
 
     #arr0 contains IC for DAL
     [J, RT] = direct_Solver(solver_Direct, dom, arr0, s, p, nx, ny)

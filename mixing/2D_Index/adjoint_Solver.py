@@ -38,7 +38,7 @@ def adjoint_Solver(solver, domain, RT):
     # Main loop
     dt = 2e-3
     try:
-        logger.info('\nStarting Adjoint loop\n')
+        logger.info('\nStarting Adjoint loop ... \n')
         while solver.ok:
             solver.step(dt)
     except:
@@ -47,4 +47,5 @@ def adjoint_Solver(solver, domain, RT):
 
     f.set_scales(1)
     g.set_scales(1)
+    
     return [f['g'], g['g']]

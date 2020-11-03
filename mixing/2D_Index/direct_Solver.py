@@ -49,7 +49,7 @@ def direct_Solver(solver, domain, ls, s, pn, nx, ny):
     # mMain Loop
     dt = 2e-3
     try:
-        logger.info('Starting Direct loop ... \n')
+        logger.info('\nStarting Direct loop ... \n')
         start_run_time = time.time()
         while solver.ok:
             solver.step(dt)

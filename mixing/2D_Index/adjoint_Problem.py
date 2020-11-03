@@ -54,6 +54,7 @@ def adjoint_Problem(domain, Re, Pe, T):
   solver = problem.build_solver(de.timesteppers.RK443)
   solver.stop_sim_time = T
   solver.stop_iterations = np.inf
+  solver.stop_wall_time = np.inf
 
   # Correct Arguement for General Functions
   U.args = [solver]

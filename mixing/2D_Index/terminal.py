@@ -15,8 +15,6 @@ def terminal(x, y, nx, ny, r, s, p, domain):
     RT = np.cos(x+y) # To get array in right dimensions - np.cos is irrelevant
     RT = 0 * RT
 
-
-
     #Compute Terminal Adjoint Concentration
     for i in range(0, kxmax):
         for j in range(0, kymax):
