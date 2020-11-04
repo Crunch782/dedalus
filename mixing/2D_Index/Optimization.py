@@ -209,7 +209,7 @@ if rank == 0:
         os.makedirs(sTRdir)
 
     # Set up folder to hold the IC and the plots
-    u0dir = sTRdir+'/u0_'
+    u0dir = sTRdir+'/u0'
     if not os.path.exists(u0dir):
         os.makedirs(u0dir)
     plotdir = sTRdir+'/Plots'
@@ -418,8 +418,8 @@ if powit == 0 :
 
         # Write to u0 file if solution has a lower residual than the running residual
         if write == 1:
-            with h5py.File(u0dir+str(rank)+'.h5', 'w') as hf:
-                 hf.create_dataset(u0dir+str(rank),  data=Xold)
+            with h5py.File(u0dir+'/u'+str(rank)+'.h5', 'w') as hf:
+                 hf.create_dataset(u0dir+'/u'+str(rank),  data=Xold)
             write = 0
 
 if powit == 1:

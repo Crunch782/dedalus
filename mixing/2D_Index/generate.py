@@ -12,30 +12,30 @@ file = open("run.sh", "w")
 # Algorithm Parameters
 T       = '2.0'        #Target Optimization Time        (eg 2.0)
 Re      = '50.0'       #Reynolds number                 (eg 50.0)
-K       = '2.0'        #Step Factor (if too small)      (eg 2.0)
+K       = '1.5'        #Step Factor (if too small)      (eg 2.0)
 r       = '0.5'        #Step factor (if too big)        (eg 0.5)
-e0init  = '1.0'        #Initial Step                    (eg 1.0)
+e0init  = '0.1'        #Initial Step                    (eg 1.0)
 LS      = '1'          #Line Search/Not                 (eg 1)
 LSI     = '1'          #Line Search Interpolation/Not   (eg 1)
 proj    = '1'          #Projection onto surface/Not     (eg 1)
 method  = 'rot'        #rot/Lag update on u0            (eg 'rot')
 dmethod = 'conj'       #conj/grad direction update      (eg 'conj')
 powit   = '0'          #Power iteration                 (eg 0)
-N       = '4'         #Max number of loops             (eg 50)
+N       = '200'         #Max number of loops             (eg 50)
 start   = 'rand'       #rand/cont IC                    (eg 'rand')
 s       = '0.5'        #s index value                   (eg 0.5)
 if start == 'cont':
-    resMin  = '1.0'    #Minimum res achieved in last    (determined from a previous output, eg 0.157...)
+    resMin  = '0.005'    #Minimum res achieved in last    (determined from a previous output, eg 0.157...)
 
 arr = [T, Re, K, r, e0init, LS, LSI, proj, method, dmethod, powit, N, start, s]
 if start == 'cont':
     arr.append(resMin)
 
 # Batch Script Parameters
-sTre = 0
+sTre = 'Re='+Re+'_s='+s+'_T='+T
 N = 1
 n = 1
-cpus = 8
+cpus = 2
 cutoff = 8
 
 # Batch Script Parameters as Strings
@@ -74,7 +74,7 @@ file.write("#! The variable $SLURM_ARRAY_TASK_ID contains the array index for ea
 file.write("#! In this example, each job will be passed its index, so each output file will contain a different value\n\n")
 file.write("#!echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope\n\n")
 
-str1 = 'mpiexec --oversubscribe -n 8 python3 Optimization.py '
+str1 = 'python3 Optimization.py '
 sp = '\n'
 str2 = ''
 
