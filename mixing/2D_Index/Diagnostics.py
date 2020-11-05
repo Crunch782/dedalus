@@ -1,14 +1,8 @@
-"""
+
 from DAL import DAL
 from grid import grid
-from direct_Problem import direct_Problem
-from adjoint_Problem import adjoint_Problem
 from diag_Problem import diag_Problem
-from direct_NS import direct_NS
-from adjoint_NS import adjoint_NS
-from diag_NS import diag_NS
-from terminal_Problem import terminal_Problem
-from terminal_Lp import terminal_Lp
+from diag_Solver import diag_Solver
 import os
 import psutil
 import numpy as np
@@ -25,29 +19,50 @@ from mpi4py import MPI
 import h5py
 import sys
 
-[Re, Pe, nx, ny, T, Td, L, da, e0, Vol, mag, p] = parameters()
+[Re, Pe, nx, ny, T, Td, L, da, e0, Vol, mag, p] = parameters(float(sys.argv[1]), float(sys.argv[2]))
 
+s = float(sys.argv[3])
 
+# Define grid and MPI stuff
+dom = grid(nx, ny, L, da)
+reducer = GlobalArrayReducer(dom.distributor.comm)
+comm = MPI.COMM_WORLD
+size = comm.size
+rank = comm.rank
+
+solver_Diag = diag_Problem(dom, Re, Pe, Td)
+
+"""
 
 Code for generating results from the optimal solution u0 for mixing problem.
 
+"""
 
+# Load the IC
+sdir = './Results/Re='+str(Re)
+sTdir = sdir+'/s='+sstr
+sTRdir = sTdir+'/T='+str(T)
+u0dir = sTRdir+'/u0'
+plotdir = sTRdir+'/Plots'
 
+Xn = []
+
+with h5py.File(u0dir+'/u'+'.h5', 'r') as hf:
+    Xn = hf[u0dir+'/u'+str(rank)][:]
 
 uOpt = []
 vOpt = []
 
 if rank == 0:
-    print("Beginning Diagnositcs ... \n")
+    print("\nBeginning Diagnositcs ... \n")
 
 # Convert Q to the field
 arrOpt = [uOpt, vOpt]
-uvOpt = np.array_split(Xopt, [nx*int(ny/p)])
+uvOpt = np.array_split(Xn, [nx*int(ny/p)])
 for i in range(0, 2):
     arrOpt[i] = np.reshape(uvOpt[i], (nx, int(ny/p)))
 
-diag_NS(solver_Diag, solver_Terminal, dom, arrOpt, rank)
+diag_Solver(solver, domain, arrOpt, s, p, nx, ny, plotdir, rank)
 
 if rank == 0:
-    print("Diagnostics Complete!")
-"""
+    print("\nDiagnostics Complete!\n")
