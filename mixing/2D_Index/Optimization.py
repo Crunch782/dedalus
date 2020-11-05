@@ -174,6 +174,7 @@ if start == 'cont':
 
 if rank == 0:
     print("\n\n=====Optimization Algorithm Parameters=====\n")
+    print("\n(s, T, Re) = (",s, ", ", T, ", ", Re, ")\n")
     print("K       = ", K)
     print("r       = ", r)
     print("e0init  = ", e0init)
@@ -186,7 +187,6 @@ if rank == 0:
     print("N       = ", N)
     print("start   = ", start)
     print("sstr    = ", sstr)
-    print("s       = ", s)
     if start == 'cont':
         print("resMin  = ", resMin)
     print("\n\n===========================================\n")

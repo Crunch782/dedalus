@@ -2,12 +2,12 @@
 #! Account name for group, use SL2 for paying queue:
 #SBATCH -J Re=50.0_s=0.5_T=2.0
 #SBATCH -A CAULFIELD-SL3-CPU
-#SBATCH -p skylake-himem
+#SBATCH -p skylake
 
 #SBATCH -N 1
 #SBATCH -n 1
-#SBATCH --cpus-per-task=2
-#SBATCH --time=8:00:00
+#SBATCH --cpus-per-task=1
+#SBATCH --time=3:00:00
 
 #SBATCH --error=./Output/Re=50.0_s=0.5_T=2.0.err
 #SBATCH --output=./Output/Re=50.0_s=0.5_T=2.0.out
@@ -32,4 +32,4 @@ conda activate dedalus
 
 #!echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
 
-python3 Optimization.py 2.0 50.0 1.5 0.5 0.1 1 1 1 rot conj 0 200 rand 0.5
+python3 Optimization.py 2.0 50.0 1.5 0.5 0.1 1 1 1 rot conj 0 100 rand 0.5
