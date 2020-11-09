@@ -1,0 +1,896 @@
+2020-11-05 23:30:14,955 pencil 0/1 INFO :: Building pencil matrix 1/32 (~3%) Elapsed: 0s, Remaining: 1s, Rate: 4.9e+01/s
+2020-11-05 23:30:15,017 pencil 0/1 INFO :: Building pencil matrix 4/32 (~12%) Elapsed: 0s, Remaining: 1s, Rate: 4.8e+01/s
+2020-11-05 23:30:15,098 pencil 0/1 INFO :: Building pencil matrix 8/32 (~25%) Elapsed: 0s, Remaining: 0s, Rate: 4.9e+01/s
+2020-11-05 23:30:15,178 pencil 0/1 INFO :: Building pencil matrix 12/32 (~38%) Elapsed: 0s, Remaining: 0s, Rate: 4.9e+01/s
+2020-11-05 23:30:15,258 pencil 0/1 INFO :: Building pencil matrix 16/32 (~50%) Elapsed: 0s, Remaining: 0s, Rate: 4.9e+01/s
+2020-11-05 23:30:15,339 pencil 0/1 INFO :: Building pencil matrix 20/32 (~62%) Elapsed: 0s, Remaining: 0s, Rate: 4.9e+01/s
+2020-11-05 23:30:15,420 pencil 0/1 INFO :: Building pencil matrix 24/32 (~75%) Elapsed: 0s, Remaining: 0s, Rate: 4.9e+01/s
+2020-11-05 23:30:15,501 pencil 0/1 INFO :: Building pencil matrix 28/32 (~88%) Elapsed: 1s, Remaining: 0s, Rate: 4.9e+01/s
+2020-11-05 23:30:15,582 pencil 0/1 INFO :: Building pencil matrix 32/32 (~100%) Elapsed: 1s, Remaining: 0s, Rate: 4.9e+01/s
+2020-11-05 23:30:15,617 pencil 0/1 INFO :: Building pencil matrix 1/32 (~3%) Elapsed: 0s, Remaining: 1s, Rate: 4.8e+01/s
+2020-11-05 23:30:15,680 pencil 0/1 INFO :: Building pencil matrix 4/32 (~12%) Elapsed: 0s, Remaining: 1s, Rate: 4.8e+01/s
+2020-11-05 23:30:15,763 pencil 0/1 INFO :: Building pencil matrix 8/32 (~25%) Elapsed: 0s, Remaining: 1s, Rate: 4.8e+01/s
+2020-11-05 23:30:15,848 pencil 0/1 INFO :: Building pencil matrix 12/32 (~38%) Elapsed: 0s, Remaining: 0s, Rate: 4.8e+01/s
+2020-11-05 23:30:15,932 pencil 0/1 INFO :: Building pencil matrix 16/32 (~50%) Elapsed: 0s, Remaining: 0s, Rate: 4.7e+01/s
+2020-11-05 23:30:16,017 pencil 0/1 INFO :: Building pencil matrix 20/32 (~62%) Elapsed: 0s, Remaining: 0s, Rate: 4.7e+01/s
+2020-11-05 23:30:16,102 pencil 0/1 INFO :: Building pencil matrix 24/32 (~75%) Elapsed: 1s, Remaining: 0s, Rate: 4.7e+01/s
+2020-11-05 23:30:16,186 pencil 0/1 INFO :: Building pencil matrix 28/32 (~88%) Elapsed: 1s, Remaining: 0s, Rate: 4.7e+01/s
+2020-11-05 23:30:16,270 pencil 0/1 INFO :: Building pencil matrix 32/32 (~100%) Elapsed: 1s, Remaining: 0s, Rate: 4.7e+01/s
+
+
+=====Optimization Algorithm Parameters=====
+
+
+(s, T, Re) = ( 1.0 ,  2.0 ,  50.0 )
+
+K       =  1.5
+r       =  0.5
+e0init  =  0.1
+LS      =  1
+LSI     =  1
+proj    =  1
+method  =  rot
+dmethod =  conj
+powit   =  0
+N       =  200
+start   =  rand
+sstr    =  1
+
+
+===========================================
+
+Starting from Random IC ... 
+
+2020-11-05 23:30:16,314 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:30:41,042 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:30:41,903 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:31:12,107 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Loop  1  ... 
+
+2020-11-05 23:31:12,144 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:31:34,211 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:31:35,074 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:32:01,123 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:32:01,157 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:32:23,024 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:32:23,886 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:32:49,807 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:32:49,840 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:33:11,611 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:33:12,474 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:33:38,670 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:33:38,704 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:34:00,591 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:34:01,452 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:34:27,553 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:34:27,575 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:34:49,415 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:34:50,276 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:35:16,310 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:35:16,344 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:35:38,248 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:35:39,108 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:36:05,447 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:36:05,469 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:36:27,212 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:36:28,073 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:36:54,164 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:36:54,198 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:37:16,071 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:37:16,932 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:37:42,970 solvers 0/1 INFO :: Simulation stop time reached.
+Line search from  0.1  to  4.92578125  ... 
+
+2020-11-05 23:37:42,993 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:38:04,869 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:38:05,731 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:38:31,804 solvers 0/1 INFO :: Simulation stop time reached.
+Line search interpolation unsuccessful ... 
+
+2020-11-05 23:38:31,837 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:38:53,706 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:38:54,567 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:39:20,569 solvers 0/1 INFO :: Simulation stop time reached.
+After  10  loops: Residual =  54.775171876739044 | Normalized Residual =  0.26345921551769275  ... 
+
+Starting Loop  11  ... 
+
+2020-11-05 23:39:20,596 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:39:42,379 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:39:43,242 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:40:09,291 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:40:09,325 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:40:31,215 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:40:32,077 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:40:58,258 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:40:58,281 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:41:20,062 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:41:20,924 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:41:47,202 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:41:47,235 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:42:09,121 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:42:09,983 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:42:36,191 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:42:36,224 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:42:58,134 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:42:58,996 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:43:25,239 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:43:25,261 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:43:47,187 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:43:48,052 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:44:14,298 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:44:14,332 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:44:36,175 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:44:37,037 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:45:03,295 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:45:03,318 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:45:25,264 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:45:26,126 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:45:52,186 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:45:52,219 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:46:13,926 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:46:14,792 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:46:40,984 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:46:41,007 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:47:02,850 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:47:03,712 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:47:29,828 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:47:29,861 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:47:51,720 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:47:52,584 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:48:18,857 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:48:18,880 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:48:40,832 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:48:41,693 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:49:07,965 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:49:07,998 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:49:29,724 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:49:30,586 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:49:56,902 solvers 0/1 INFO :: Simulation stop time reached.
+Line search from  0.01334034420767186  to  5.165901733022164  ... 
+
+2020-11-05 23:49:56,927 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:50:18,826 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:50:19,685 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:50:45,826 solvers 0/1 INFO :: Simulation stop time reached.
+Line search interpolation unsuccessful ... 
+
+2020-11-05 23:50:45,859 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:51:07,562 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:51:08,424 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:51:34,790 solvers 0/1 INFO :: Simulation stop time reached.
+After  25  loops: Residual =  47.71717154168637 | Normalized Residual =  0.1938740499627023  ... 
+
+Starting Loop  26  ... 
+
+2020-11-05 23:51:34,828 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:51:56,770 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:51:57,634 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:52:23,637 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:52:23,660 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:52:45,503 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:52:46,364 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:53:12,729 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:53:12,763 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:53:34,647 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:53:35,509 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:54:01,583 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:54:01,605 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:54:23,355 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:54:24,216 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:54:50,473 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:54:50,507 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:55:12,400 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:55:13,261 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:55:39,479 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:55:39,502 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:56:01,279 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:56:02,139 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:56:28,374 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:56:28,408 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:56:50,255 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:56:51,116 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:57:17,291 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-05 23:57:17,313 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:57:39,294 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:57:40,156 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:58:06,676 solvers 0/1 INFO :: Simulation stop time reached.
+Line search from  0.014292939766875396  to  0.7040389471105418  ... 
+
+2020-11-05 23:58:06,709 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:58:28,643 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:58:29,504 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:58:55,763 solvers 0/1 INFO :: Simulation stop time reached.
+Line search interpolation unsuccessful ... 
+
+2020-11-05 23:58:55,785 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-05 23:59:17,652 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-05 23:59:18,515 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-05 23:59:44,933 solvers 0/1 INFO :: Simulation stop time reached.
+After  35  loops: Residual =  14.98090759990273 | Normalized Residual =  0.04447307729103352  ... 
+
+Starting Loop  36  ... 
+
+2020-11-05 23:59:44,970 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:00:06,902 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:00:07,765 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:00:33,943 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:00:33,977 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:00:55,810 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:00:56,671 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:01:22,966 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:01:22,989 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:01:44,892 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:01:45,758 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:02:11,868 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:02:11,902 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:02:33,789 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:02:34,657 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:03:00,922 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:03:00,945 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:03:22,826 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:03:23,691 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:03:49,778 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:03:49,812 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:04:11,594 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:04:12,458 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:04:38,863 solvers 0/1 INFO :: Simulation stop time reached.
+Line search from  0.02550878933685393  to  0.5301045284064958  ... 
+
+2020-11-06 00:04:38,886 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:05:00,776 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:05:01,638 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:05:27,750 solvers 0/1 INFO :: Simulation stop time reached.
+Line search interpolation unsuccessful ... 
+
+2020-11-06 00:05:27,784 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:05:49,586 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:05:50,449 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:06:16,813 solvers 0/1 INFO :: Simulation stop time reached.
+After  43  loops: Residual =  9.091488237987464 | Normalized Residual =  0.026761890030126658  ... 
+
+Starting Loop  44  ... 
+
+2020-11-06 00:06:16,840 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:06:38,871 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:06:39,732 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:07:06,003 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:07:06,036 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:07:28,082 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:07:28,945 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:07:55,230 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:07:55,252 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:08:17,182 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:08:18,043 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:08:44,384 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:08:44,417 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:09:06,268 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:09:07,132 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:09:33,477 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:09:33,500 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:09:55,468 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:09:56,329 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:10:22,385 solvers 0/1 INFO :: Simulation stop time reached.
+Line search from  0.03274473041681354  to  0.4318211323717286  ... 
+
+2020-11-06 00:10:22,418 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:10:44,220 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:10:45,082 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:11:11,502 solvers 0/1 INFO :: Simulation stop time reached.
+Line search interpolation successful ... 
+
+After  49  loops: Residual =  9.971690952656642 | Normalized Residual =  0.02756748014269985  ... 
+
+Starting Loop  50  ... 
+
+2020-11-06 00:11:11,536 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:11:33,406 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:11:34,266 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:12:00,430 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:12:00,452 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:12:22,309 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:12:23,171 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:12:49,427 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:12:49,461 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:13:11,300 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:13:12,162 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:13:38,333 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:13:38,355 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:14:00,210 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:14:01,071 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:14:27,397 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:14:27,431 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:14:49,332 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:14:50,192 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:15:16,397 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:15:16,419 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:15:38,302 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:15:39,164 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:16:05,476 solvers 0/1 INFO :: Simulation stop time reached.
+Line search from  0.0312661570342153  to  0.6497498258672868  ... 
+
+2020-11-06 00:16:05,509 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:16:27,456 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:16:28,317 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:16:54,472 solvers 0/1 INFO :: Simulation stop time reached.
+Line search interpolation successful ... 
+
+After  56  loops: Residual =  6.316234768184476 | Normalized Residual =  0.01612745630995412  ... 
+
+Starting Loop  57  ... 
+
+2020-11-06 00:16:54,499 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:17:16,420 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:17:17,424 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:17:43,763 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:17:43,796 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:18:05,521 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:18:06,382 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:18:32,298 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:18:32,320 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:18:53,921 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:18:54,785 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:19:20,885 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:19:20,919 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:19:42,518 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:19:43,381 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:20:09,193 solvers 0/1 INFO :: Simulation stop time reached.
+Line search from  0.03928527322132673  to  0.3191928449232797  ... 
+
+2020-11-06 00:20:09,216 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:20:30,681 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:20:31,543 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:20:57,477 solvers 0/1 INFO :: Simulation stop time reached.
+Line search interpolation unsuccessful ... 
+
+2020-11-06 00:20:57,510 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:21:19,027 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:21:19,890 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:21:45,667 solvers 0/1 INFO :: Simulation stop time reached.
+After  62  loops: Residual =  3.288049767267848 | Normalized Residual =  0.008387061408332272  ... 
+
+Starting Loop  63  ... 
+
+2020-11-06 00:21:45,704 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:22:07,224 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:22:08,087 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:22:33,926 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:22:33,960 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:22:55,467 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:22:56,328 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:23:21,975 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:23:22,009 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:23:43,444 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:23:44,307 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:24:10,044 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:24:10,066 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:24:31,440 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:24:32,301 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:24:57,789 solvers 0/1 INFO :: Simulation stop time reached.
+Line search from  0.05444897627161228  to  0.4423979322068498  ... 
+
+2020-11-06 00:24:57,823 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:25:19,650 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:25:20,854 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:25:48,441 solvers 0/1 INFO :: Simulation stop time reached.
+Line search interpolation unsuccessful ... 
+
+2020-11-06 00:25:48,476 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:26:11,576 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:26:12,473 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:26:40,147 solvers 0/1 INFO :: Simulation stop time reached.
+After  68  loops: Residual =  3.7856762937050803 | Normalized Residual =  0.00966284363709005  ... 
+
+Starting Loop  69  ... 
+
+2020-11-06 00:26:40,183 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:27:03,344 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:27:04,248 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:27:32,050 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:27:32,086 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:27:55,386 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:27:56,293 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:28:24,080 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:28:24,116 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:28:47,400 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:28:48,307 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:29:16,254 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:29:16,278 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:29:39,592 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:29:40,498 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:30:08,283 solvers 0/1 INFO :: Simulation stop time reached.
+Line search from  0.0507442890406168  to  0.41229734845501154  ... 
+
+2020-11-06 00:30:08,318 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:30:31,537 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:30:32,432 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:30:59,681 solvers 0/1 INFO :: Simulation stop time reached.
+Line search interpolation unsuccessful ... 
+
+2020-11-06 00:30:59,716 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:31:22,441 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:31:23,333 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:31:50,520 solvers 0/1 INFO :: Simulation stop time reached.
+After  74  loops: Residual =  2.277482579092772 | Normalized Residual =  0.005883458301439564  ... 
+
+Starting Loop  75  ... 
+
+2020-11-06 00:31:50,561 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:32:13,338 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:32:14,230 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:32:41,474 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:32:41,509 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:33:04,231 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:33:05,123 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:33:32,266 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:33:32,301 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:33:55,005 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:33:55,898 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:34:23,227 solvers 0/1 INFO :: Simulation stop time reached.
+Line search from  0.06542313905104434  to  0.3107599104924606  ... 
+
+2020-11-06 00:34:23,262 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:34:46,010 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:34:46,901 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:35:14,045 solvers 0/1 INFO :: Simulation stop time reached.
+Line search interpolation unsuccessful ... 
+
+2020-11-06 00:35:14,067 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:35:36,789 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:35:37,683 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:36:04,951 solvers 0/1 INFO :: Simulation stop time reached.
+After  79  loops: Residual =  0.8102565209839824 | Normalized Residual =  0.0021101009464684897  ... 
+
+Starting Loop  80  ... 
+
+2020-11-06 00:36:04,991 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:36:27,771 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:36:28,664 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:36:55,915 solvers 0/1 INFO :: Simulation stop time reached.
+Starting Line Search ... 
+
+2020-11-06 00:36:55,950 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:37:18,651 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:37:19,545 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:37:46,572 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:37:46,606 direct_Solver 0/1 INFO :: 
+Starting Direct loop ... 
+
+2020-11-06 00:38:09,189 solvers 0/1 INFO :: Simulation stop time reached.
+2020-11-06 00:38:10,078 adjoint_Solver 0/1 INFO :: 
+Starting Adjoint loop ... 
+
+2020-11-06 00:38:37,147 solvers 0/1 INFO :: Simulation stop time reached.
+After  83  loops: Residual =  0.5599218909157393 | Normalized Residual =  0.0014716133941587504  ... 
+
+Convergence Reached with r =  0.0014716133941587504  after  84  loops ... Optimization Complete at  00:38:37

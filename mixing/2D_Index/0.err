@@ -1,2 +1,0 @@
-slurmstepd: error: *** JOB 30737575 ON cpu-e-562 CANCELLED AT 2020-11-04T16:12:47 ***
-slurmstepd: error: task_p_post_term: rmdir(/sys/fs/cgroup/cpuset/slurm30737575/slurm30737575.4294967294_0) failed Device or resource busy

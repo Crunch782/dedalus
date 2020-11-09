@@ -228,8 +228,8 @@ if start == 'rand':
 elif start == 'cont':
     if rank == 0:
         print("Continuing from previous solution ... \n")
-    with h5py.File(u0dir+str(rank)+'.h5', 'r') as hf:
-        Xn = hf[u0dir+str(rank)][:]
+    with h5py.File(u0dir+'/u'+str(rank)+'.h5', 'r') as hf:
+        Xn = hf[u0dir+'/u'+str(rank)][:]
     Csq = reducer.reduce_scalar(np.square(LA.norm(Xn)), MPI.SUM)
     C = np.sqrt(Csq)
 

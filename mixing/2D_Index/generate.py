@@ -37,15 +37,15 @@ if start == 'cont':
 sTre = 'Re='+Re+'_s='+s+'_T='+T
 N = 1
 n = 1
-cpus = 2
-cutoff = 4
+cpus = 1
+cutoff = int(sys.argv[4])
 
 # Batch Script Parameters as Strings
 projectname = str(sTre)
 bigN = str(N)
 smalln = str(n)
 ncpus = str(cpus)
-cutTime = str(8)
+cutTime = str(cutoff)
 
 file.write("#!/bin/bash\n")
 file.write("#! Account name for group, use SL2 for paying queue:\n")
