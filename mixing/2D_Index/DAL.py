@@ -9,6 +9,10 @@ from numpy import linalg as LA
 from dedalus import public as de
 from mpi4py import MPI
 
+comm = MPI.COMM_WORLD
+size = comm.size
+rank = comm.rank
+
 def DAL(solver_Direct, solver_Adjoint, dom, Q, p, nx, ny, s, reducer):
 
 
@@ -20,9 +24,10 @@ def DAL(solver_Direct, solver_Adjoint, dom, Q, p, nx, ny, s, reducer):
     for i in range(0, 2):
         arr0[i] = np.reshape(uv[i], (nx, int(ny/p)))
 
-
+    
     #arr0 contains IC for DAL
     [J, RT] = direct_Solver(solver_Direct, dom, arr0, s, p, nx, ny)
+    print("rank = ", rank)
     solver_Direct.sim_time = 0.
     solver_Direct.iteration = 0
 

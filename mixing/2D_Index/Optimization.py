@@ -195,24 +195,29 @@ if rank == 0:
 # Set up directory for results and u0
 
 # Set up the s directory, now the results are stored in a folder marked T=... for the target time used which lies inside a folder marked s=... for the index used
+sdir = './Results/Re='+str(Re)
+sTdir = sdir+'/s='+sstr
+sTRdir = sTdir+'/T='+str(T)
+u0dir = sTRdir+'/u0'
+plotdir = sTRdir+'/Plots'
 if rank == 0:
-    sdir = './Results/Re='+str(Re)
+    
     if not os.path.exists(sdir):
         os.makedirs(sdir)
 
-    sTdir = sdir+'/s='+sstr
+    
     if not os.path.exists(sTdir):
         os.makedirs(sTdir)
 
-    sTRdir = sTdir+'/T='+str(T)
+    
     if not os.path.exists(sTRdir):
         os.makedirs(sTRdir)
 
     # Set up folder to hold the IC and the plots
-    u0dir = sTRdir+'/u0'
+    
     if not os.path.exists(u0dir):
         os.makedirs(u0dir)
-    plotdir = sTRdir+'/Plots'
+    
     if not os.path.exists(plotdir):
         os.makedirs(plotdir)
 
@@ -457,3 +462,4 @@ if rank == 0:
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         print("Hit Loop Limit N = ", n, " ... Program Complete at ", current_time)
+

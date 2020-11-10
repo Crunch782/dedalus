@@ -4,10 +4,10 @@
 #SBATCH -A CAULFIELD-SL3-CPU
 #SBATCH -p skylake-himem
 
-#SBATCH -N 1
-#SBATCH -n 1
-#SBATCH --cpus-per-task=1
-#SBATCH --time=3:00:00
+#SBATCH -N 2
+#SBATCH -n 2
+#SBATCH --cpus-per-task=4
+#SBATCH --time=8:00:00
 
 #SBATCH --error=./Output/Re=50.0_s=1_T=4.err
 #SBATCH --output=./Output/Re=50.0_s=1_T=4.out
