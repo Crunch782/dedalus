@@ -11,6 +11,6 @@ def parameters(T, Re):
     e0 = 0.03
     Vol = L**2
     mag = np.sqrt(2.*e0*Vol)
-    Td = 64.
+    Td = 10.
     p = 1
     return [Re, Pe, nx, ny, T, Td, L, da, e0, Vol, mag, p]

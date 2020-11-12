@@ -4,11 +4,13 @@ import checkpoints
 from dedalus import public as de
 from dedalus.extras import flow_tools
 from terminal import terminal
+import pandas as pd
 import time
 import logging
 logger = logging.getLogger(__name__)
 
-def direct_Solver(solver, domain, ls, s, pn, nx, ny, dir, rank):
+
+def diag_Solver(solver, domain, ls, s, pn, nx, ny, dir, rank):
 
     # Set domain and variables
     x = domain.grid(0)
@@ -58,14 +60,13 @@ def direct_Solver(solver, domain, ls, s, pn, nx, ny, dir, rank):
             solver.step(dt)
             r.set_scales(1)
             rd.set_scales(1)
-            r_list.append(np.copy(r['g']))
-            rd_list.append(np.copy(rd['g']))
-            t_list.append(solver.sim_time)
-            if solver.iteration%500 == 0:
-                Ma = terminal(x, y, nx, ny, r, s, pn, domain)[0]
-                Md = terminal(x, y, nx, ny, rd, s, pn, domain)[0]
+            if solver.iteration % 500 == 0:
+                [Ma, dJa] = terminal(x, y, nx, ny, r['c'], s, pn, domain)
+                [Md, dJd] = terminal(x, y, nx, ny, rd['c'], s, pn, domain)
+                if rank == 0:
+                    print("t = ", solver.sim_time)
                 M = np.sqrt(Ma/Md)
-                m_list.append(m)
+                m_list.append(M)
                 t_list.append(solver.sim_time)
 
     except:

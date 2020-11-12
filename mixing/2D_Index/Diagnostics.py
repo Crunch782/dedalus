@@ -1,4 +1,3 @@
-
 from DAL import DAL
 from grid import grid
 from diag_Problem import diag_Problem
@@ -9,9 +8,9 @@ import numpy as np
 import gc
 from numpy import linalg as LA
 from dedalus import public as de
-from param import param
+from parameters import parameters
 import array as ar
-import checkPoints
+import checkpoints
 import terminal
 import operator as op
 from dedalus.extras.flow_tools import GlobalArrayReducer
@@ -40,21 +39,21 @@ Code for generating results from the optimal solution u0 for mixing problem.
 
 # Load the IC
 sdir = './Results/Re='+str(Re)
-sTdir = sdir+'/s='+sstr
+sTdir = sdir+'/s='+str(sys.argv[3])
 sTRdir = sTdir+'/T='+str(T)
 u0dir = sTRdir+'/u0'
 plotdir = sTRdir+'/Plots'
 
 Xn = []
 
-with h5py.File(u0dir+'/u'+'.h5', 'r') as hf:
+with h5py.File(u0dir+'/u'+str(rank)+'.h5', 'r') as hf:
     Xn = hf[u0dir+'/u'+str(rank)][:]
 
 uOpt = []
 vOpt = []
 
 if rank == 0:
-    print("\nBeginning Diagnositcs ... \n")
+    print("\nBeginning Diagnositcs for ( "+str(s)+", "+str(T)+", "+str(Re)+" ) ... \n")
 
 # Convert Q to the field
 arrOpt = [uOpt, vOpt]
@@ -62,7 +61,7 @@ uvOpt = np.array_split(Xn, [nx*int(ny/p)])
 for i in range(0, 2):
     arrOpt[i] = np.reshape(uvOpt[i], (nx, int(ny/p)))
 
-diag_Solver(solver, domain, arrOpt, s, p, nx, ny, plotdir, rank)
+diag_Solver(solver_Diag, dom, arrOpt, s, p, nx, ny, plotdir, rank)
 
 if rank == 0:
     print("\nDiagnostics Complete!\n")
