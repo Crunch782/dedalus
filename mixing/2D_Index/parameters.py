@@ -4,7 +4,7 @@ def parameters(T, Re):
     L = 2.*np.pi
     Pe = Re
     Sc = Pe / Re
-    n = 64
+    n = 128
     nx = n
     ny = n
     da = 1
